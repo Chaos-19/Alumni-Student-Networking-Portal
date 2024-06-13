@@ -1,40 +1,64 @@
-[
-  {
-    "auther": {
-      "profile": "/Ellipse 5.png",
-      "name": "John Doe"
-    },
-    "id": 1,
-    "title": "How to patch KDE on FreeBSD?",
-    "author": "John Doe",
-    "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat aliquet maecenas ut sit nulla",
-    "time": "5 minutes ago",
-    "likes": "12515",
-    "comments": "155",
-    "tags": ["golang", "linux", "overflow"]
+{
+  "author": {
+    "username": "Golanginya",
+    "profile_image_url": "/Ellipse 5.png"
   },
-  {
-    "auther": {
-      "profile": "/Ellipse 3.png",
-      "name": "uxoid"
+  "created_at": "12 November 2020 19:35",
+  "content": "Mi magna sed nec nisl mattis. Magna cursus tincidunt rhoncus imperdiet fermentum pretium, pharetra nisl. Euismod.\n\n```showLineNumbers go\npackage mian\nimport 'fmt'\nfunc main() {\n\tfmt.Println('Hello, world!')\n}\n ``` \nPosuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.",
+  "tags": ["java", "javascript", "wtf"],
+  "likes": 0,
+  "retweets": 0,
+  "replies": 0,
+  "title": "How to patch KDE on FreeBSD?",
+
+  "comment": [
+    {
+      "user": {
+        "username": "@unkind",
+        "profile_image_url": "/Ellipse 5.png"
+      },
+      "date": "12 November 2020 19:35",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisi nulla placerat dignissim ipsum arcu.",
+      "code": "package main",
+      "likes": 12,
+      "dislikes": 3,
+      "replies": [
+        {
+          "user": "@lazyReplayer",
+          "date": "12 November 2020 19:35",
+          "text": "@unkind, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
+          "likes": 3,
+          "replies": [
+            {
+              "user": "@unkind",
+              "date": "12 November 2020 19:35",
+              "text": "@lazyReplayer, Thanks!",
+              "likes": 1
+            }
+          ]
+        }
+      ]
     },
-    "time": "25 min ago",
-    "title": "What is a difference between Java nad JavaScript?",
-    "descrion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat aliquet maecenas ut sit nulla",
-    "likes": "12515",
-    "comments": "155",
-    "tags": ["java", "javascript", "recomendations"]
-  },
-  {
-    "auther": {
-      "profile": "/Ellipse 5.png",
-      "name": "Aizhan Maratovna"
+    {
+      "user": {
+        "username": "@morgenshtern",
+        "profile_image_url": "/Ellipse 5.png"
+      },
+      "date": "12 November 2020 19:35",
+      "text": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisi nulla placerat dignissim ipsum arcu.",
+      "likes": 256,
+      "dislikes": 3,
+      "replies": 4
     },
-    "time": "7 days ago",
-    "title": "I want to study Svelte JS Framework. What is the best resourse should I use?",
-    "descrion": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Consequat aliquet maecenas ut sit nulla",
-    "likes": "125",
-    "comments": "15",
-    "tags": ["svelte", "sveltekit", "recomendations"]
-  }
-]
+    {
+      "user": {
+        "username": "@kizaru",
+        "profile_image_url": "/Ellipse 5.png"
+      },
+      "date": "12 November 2020 19:35",
+      "text": "Mi ac id faucibus laoreet. Nulla quis in interdum imperdiet. Luctus mollis massa netus.",
+      "likes": 3,
+      "dislikes": 3
+    }
+  ]
+}

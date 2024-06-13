@@ -7,10 +7,7 @@ import Tabs from "./tabs";
 export default function page() {
   return (
     <div className="overflow-y-hidden">
-      <div className="grid grid-cols-[10%_90%] md:grid-cols-[20%_80%] lg:grid-cols-[20%_55%_25%]  bg-gray-50">
-        <div className="flex justify-center bg-white">
-          <Sidebar />
-        </div>
+      <div className="grid grid-cols-[70%_30%]  bg-gray-50">
         <div className="">
           <Tabs />
           <DiscussionList />

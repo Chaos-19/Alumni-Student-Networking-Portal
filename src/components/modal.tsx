@@ -21,7 +21,7 @@ const Modal = ({ discription, title, children, trigger }: Props) => {
     return (
         <Dialog>
             <DialogTrigger asChild>{trigger}</DialogTrigger>
-            <DialogContent className="my-15 h-[calc(100dvh_-_20px)]">
+            <DialogContent className="my-15 max-h-[calc(100dvh_-_20px)]">
                 <DialogHeader>
                     <DialogTitle className="text-xl capitalize font-medium">
                         {title}
@@ -29,7 +29,7 @@ const Modal = ({ discription, title, children, trigger }: Props) => {
                     <DialogDescription>{discription}</DialogDescription>
                 </DialogHeader>
                 {children}
-               {/*  <DialogFooter>
+                {/*  <DialogFooter>
                     <Button type="submit">Submit</Button>
                 </DialogFooter> */}
             </DialogContent>

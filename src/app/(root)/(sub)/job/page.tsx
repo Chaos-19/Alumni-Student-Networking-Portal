@@ -1,4 +1,4 @@
-import EditeProfile from "@/components/forms/edit-profile";
+import ApplyJob from "@/components/forms/apply-job.";
 import JobCard from "@/components/job/job-card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -103,7 +103,7 @@ export default function page({}: Props) {
           </div>
         </ScrollArea>
       </div>
-      <EditeProfile
+      <ApplyJob
         discription=""
         title="Edite Profile"
         users={[]}
@@ -112,7 +112,7 @@ export default function page({}: Props) {
             <FaComment size={24} />
           </Button>
         }
-      ></EditeProfile>
+      ></ApplyJob>
     </section>
   );
 }
