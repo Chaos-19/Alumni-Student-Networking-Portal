@@ -1,4 +1,4 @@
-import PublishBtn from "@/components/admin/publish-btn";
+import PublishBtn from "@/components/alumni/publish-btn";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageCircle, Plus } from "lucide-react";

@@ -1,8 +1,8 @@
-import AdminCard from "@/components/admin/card";
-import MentorsList from "@/components/admin/mentors-list";
-import StatisticView from "@/components/admin/statistic-view";
-import FileUploaderTest from "@/components/admin/upload";
-import UploadHistory from "@/components/admin/upload-history";
+import AdminCard from "@/components/alumni/card";
+import MentorsList from "@/components/alumni/mentors-list";
+import StatisticView from "@/components/alumni/statistic-view";
+import FileUploaderTest from "@/components/alumni/upload";
+import UploadHistory from "@/components/alumni/upload-history";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus } from "lucide-react";
 import React from "react";
@@ -89,7 +89,7 @@ const uploadHistory = [
   },
 ];
 
-export default function page({}: Props) {
+export default function page({ }: Props) {
   return (
     <section>
       <ScrollArea className="w-full h-screen">
