@@ -13,14 +13,12 @@ import { DropzoneOptions } from "react-dropzone";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Button, buttonVariants } from "../ui/button";
 
-import Image from "next/image";
 import { toast } from "sonner";
 import { DialogClose } from "../ui/dialog";
 import Modal from "../modal";
-import { ScrollArea } from "@radix-ui/react-scroll-area";
+
 
 export const formSchema = z.object({
   name: z.string().min(2, {
@@ -96,7 +94,7 @@ const EditeProfile = ({ users, trigger, title, discription }: Props) => {
                   </FormLabel>
                   <FormControl>
                     <Input
-                      placeholder="Task Title"
+                      placeholder="full name"
                       //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
                       {...field}
                     />
