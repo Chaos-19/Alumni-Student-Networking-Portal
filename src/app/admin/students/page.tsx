@@ -1,6 +1,4 @@
 import AddStudent from "@/components/admin/add-student";
-import FileUploaderTest from "@/components/alumni/upload";
-import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
 

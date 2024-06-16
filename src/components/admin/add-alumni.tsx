@@ -15,7 +15,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Card } from "../ui/card";
 import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
 
 type Props = {};
 
@@ -27,26 +26,28 @@ export const formSchema = z.object({
     email: z.string().min(10, {
         message: "email must be at least 10.",
     }),
+    currentJob: z.string(),
+    currentEmployer: z.string(),
     phone: z.string(),
     lastname: z.string(),
-    yerarofstudy: z.string().min(4, {
+    graduationYear: z.string().min(4, {
         message: "year must be at least 4 digit.",
     }),
     department: z.string(),
-    interest: z.string(),
 });
 
-const AddStudent = (props: Props) => {
+const AddAlumni = (props: Props) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             name: "",
             email: "",
+            currentJob: "",
+            currentEmployer: "",
             phone: "",
             lastname: "",
-            yerarofstudy: "",
+            graduationYear: "",
             department: "",
-            interest: "",
         },
     });
 
@@ -113,6 +114,7 @@ const AddStudent = (props: Props) => {
                                                                 <Input
                                                                     placeholder="full name"
                                                                     className="flex-1 w-60"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
                                                                     {...field}
                                                                 />
                                                             </FormControl>
@@ -132,46 +134,7 @@ const AddStudent = (props: Props) => {
                                                             <FormControl>
                                                                 <Input
                                                                     placeholder="lastname"
-                                                                    className="w-60"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className="flex items-center gap-5 px-4 justify-around">
-                                                <FormField
-                                                    control={form.control}
-                                                    name="yerarofstudy"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="text-sm sm:text-lg capitalize">
-                                                                year of study
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="graduation year"
-                                                                    className="w-60"
-                                                                    {...field}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={form.control}
-                                                    name="department"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="text-sm sm:text-lg">
-                                                                Task Title
-                                                            </FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    placeholder="department"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
                                                                     className="w-60"
                                                                     {...field}
                                                                 />
@@ -193,6 +156,7 @@ const AddStudent = (props: Props) => {
                                                             <FormControl>
                                                                 <Input
                                                                     placeholder="email number"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
                                                                     className="w-60"
                                                                     {...field}
                                                                 />
@@ -212,6 +176,7 @@ const AddStudent = (props: Props) => {
                                                             <FormControl>
                                                                 <Input
                                                                     placeholder="phone number"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
                                                                     className="w-60"
                                                                     {...field}
                                                                 />
@@ -221,17 +186,84 @@ const AddStudent = (props: Props) => {
                                                     )}
                                                 />
                                             </div>
-                                            <div className="flex items-center gap-5 px-[20px]">
+                                            <div className="flex items-center gap-5 px-4 justify-around">
                                                 <FormField
                                                     control={form.control}
-                                                    name="interest"
+                                                    name="department"
                                                     render={({ field }) => (
                                                         <FormItem>
-                                                            <FormLabel>Interest</FormLabel>
+                                                            <FormLabel className="text-sm sm:text-lg">
+                                                                Task Title
+                                                            </FormLabel>
                                                             <FormControl>
-                                                                <Textarea
-                                                                    placeholder="Tell us a little bit about yourself"
-                                                                    className="resize-none w-64"
+                                                                <Input
+                                                                    placeholder="department"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
+                                                                    className="w-60"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="graduationYear"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-sm sm:text-lg">
+                                                                Graduation Year
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="graduation year"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
+                                                                    className="w-60"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+                                            </div>
+                                            <div className="flex items-center gap-5 px-4 justify-around">
+                                                <FormField
+                                                    control={form.control}
+                                                    name="currentJob"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-sm sm:text-lg">
+                                                                Current Job
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="currentJob"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
+                                                                    className="w-60"
+                                                                    {...field}
+                                                                />
+                                                            </FormControl>
+                                                            <FormMessage />
+                                                        </FormItem>
+                                                    )}
+                                                />
+
+                                                <FormField
+                                                    control={form.control}
+                                                    name="currentEmployer"
+                                                    render={({ field }) => (
+                                                        <FormItem>
+                                                            <FormLabel className="text-sm sm:text-lg">
+                                                                Current Employer
+                                                            </FormLabel>
+                                                            <FormControl>
+                                                                <Input
+                                                                    placeholder="current employer"
+                                                                    //className="rounded-none py-2 sm:py-[20px] text-sm sm:text-lg"
+                                                                    className="w-60"
                                                                     {...field}
                                                                 />
                                                             </FormControl>
@@ -264,4 +296,4 @@ const AddStudent = (props: Props) => {
     );
 };
 
-export default AddStudent;
+export default AddAlumni;
