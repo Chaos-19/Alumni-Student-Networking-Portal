@@ -60,23 +60,11 @@ const Carosel = (props: Props) => {
         ))}
       </div>
       <div className="flex items-center gap-3 pr-5 py-5">
-        <Carousel
-          opts={{
-            align: "end",
-          }}
-          className="w-full max-w-screen-lg ml-auto p-5"
-        >
-          <CarouselContent className="scroll-mx-10">
-            {[...carosels, ...carosels].map((_, index) => (
-              <CaroselCard key={_.title} {..._} />
-            ))}
-          </CarouselContent>
-          <Button variant="outline" className="px-5 py-3 rounded-3xl mt-2 border-2 text-[#57AEF5] border-[#57AEF5] hover:bg-[#57AEF5] hover:text-white">View More</Button>
-          <div className="absolute bottom-[8%] right-20 ">
-            <CarouselPrevious className="absolute bottom-0  text-white bg-[#57AEF5] " />
-            <CarouselNext className=" text-white bg-[#57AEF5] " />
-          </div>
-        </Carousel>
+        <CaroselWrapper styles="max-w-screen-lg">
+          {[...carosels, ...carosels].map((_, index) => (
+            <CaroselCard key={_.title} {..._} />
+          ))}
+        </CaroselWrapper>
       </div>
     </div>
   );
@@ -96,7 +84,7 @@ function CaroselCard({
   session: string;
 }) {
   return (
-    <CarouselItem className="pl-6 md:basis-1/2 lg:basis-1/3">
+    <CarouselItem className="pl-3 md:basis-1/2 lg:basis-1/3">
       <Card className="py-4 m-3 max-w-md">
         <CardHeader className="pb-0 pt-2 px-4 flex-col items-start">
           <Image

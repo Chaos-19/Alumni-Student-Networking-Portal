@@ -1,4 +1,3 @@
-import AvatarList from "@/components/avater-list";
 import Footer from "@/components/footer";
 import Carosel from "@/components/home/carosel";
 import Hero from "@/components/home/hero";
@@ -6,22 +5,9 @@ import MainSecond from "@/components/home/section";
 import Testimonial from "@/components/home/testimonial";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { ScrollArea } from "@/components/ui/scroll-area";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
-import {
-  PanelsRightBottom,
-  PlayCircle,
-  Plus,
-  Star,
-  Touchpad,
-} from "lucide-react";
+import { PanelsRightBottom } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import { FaRegThumbsUp, FaStar, FaUsers } from "react-icons/fa";
@@ -56,7 +42,7 @@ const whycard = [
   },
 ];
 
-export default function page({ }: Props) {
+export default function page({}: Props) {
   return (
     <section className="w-full">
       <div className="h-screen">
