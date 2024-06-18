@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { MoreHorizontal, Search, SquarePen } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { buttonVariants } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/tooltip";
 import { Avatar, AvatarImage } from "./ui/avatar";
 import { Message } from "@/app/data";
-import { Input } from "@nextui-org/react";
+import { Badge, Input } from "@nextui-org/react";
 import Image from "next/image";
 import { ScrollArea } from "./ui/scroll-area";
 
@@ -49,9 +49,10 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
           />
         </div>
       )}
-      <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2">
-        <ScrollArea className="h-screen ">
-          <div className="mb-24">
+      <nav className="grid gap-1 px-2 group-[[data-collapsed=true]]:justify-center group-[[data-collapsed=true]]:px-2 h-full">
+        <ScrollArea className="h-screen">
+          <div className="mb-24 h-[calc(100svh_-_200px)] relative">
+            <h4 className="text-lg font-medium text-gray-500">Group</h4>
             {links.map((link, index) =>
               isCollapsed ? (
                 <TooltipProvider key={index}>
@@ -91,8 +92,8 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
                   className={cn(
                     buttonVariants({ variant: "ghost", size: "icon" }),
                     link.variant === "grey" &&
-                    "dark:bg-muted dark:text-white dark:hover:bg-muted dark:hover:text-white shrink",
-                    "justify-start gap-4 border border-red-700 w-full py-5"
+                    "shrink",
+                    "justify-start gap-4 w-full py-8 border-b border-b-[#57AEF5] rounded-none"
                   )}
                 >
                   <Avatar className="flex justify-center items-center">
@@ -101,7 +102,7 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
                       alt={link.avatar}
                       width={6}
                       height={6}
-                      className="w-10 h-10 "
+                      className="w-10 h-10"
                     />
                   </Avatar>
                   <div className="flex flex-col max-w-28">
@@ -117,9 +118,14 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
                       </span>
                     )}
                   </div>
+                  <div className="flex flex-col gap-2 ms-auto p-2">
+                    <p className="text-sm text-gray-500">12:30 PM</p>
+                    <div className="bg-primary text-white w-5 h-5 rounded-full flex justify-center items-centersss justify-self-center" >2</div>
+                  </div>
                 </Link>
               )
             )}
+            <Button variant="outline" className="w-full absolute bottom-0 right-0 left-0">View More</Button>
           </div>
         </ScrollArea>
       </nav>

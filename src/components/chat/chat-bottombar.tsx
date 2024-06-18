@@ -176,7 +176,7 @@ export default function ChatBottombar({
             onChange={handleInputChange}
             name="message"
             placeholder="Aa"
-            className="rounded-3xl flex items-center h-9 resize-none overflow-hidden bg-background"
+            className="rounded-3xl flex items-center h-2 resize-none overflow-hidden bg-background"
           ></Textarea>
           <div className="absolute right-2 bottom-0.5  ">
             <EmojiPicker onChange={(value) => {

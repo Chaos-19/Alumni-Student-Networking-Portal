@@ -69,7 +69,7 @@ export function ChatList({
                     />
                   </Avatar>
                 )}
-                <span className=" bg-accent p-3 rounded-md max-w-xs">
+                <span className={cn("bg-accent p-3 rounded-md max-w-xs text-base font-semibold", message.name !== selectedUser.name ? "bg-[#57AEF5] text-white" : "text-[#303972]")}>
                   {message.message}
                 </span>
                 {message.name !== selectedUser.name && (
@@ -87,7 +87,7 @@ export function ChatList({
           ))}
         </AnimatePresence>
       </div>
-      <ChatBottombar sendMessage={sendMessage} isMobile={isMobile}/>
+      <ChatBottombar sendMessage={sendMessage} isMobile={isMobile} />
     </div>
   );
 }
