@@ -4,6 +4,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import React from "react";
 import { Input } from "@nextui-org/react";
 import { Search } from "lucide-react";
+import CourseList from "./course-list";
+import Footer from "@/components/footer";
 
 type Props = {};
 
@@ -43,6 +45,8 @@ const lesson = [
     },
 ];
 
+
+
 export default function page({ }: Props) {
     return (
         <section>
@@ -53,7 +57,7 @@ export default function page({ }: Props) {
                             <LessionCard {...val} key={`${val.user}-${idx}`} />
                         ))}
                     </CaroselWrapper>
-                    <div className="flex items-center justify-center h-20 w-full">
+                    <div className="flex items-center justify-center h-52 w-full">
                         <div>
                             <Input
                                 type="email"
@@ -65,7 +69,12 @@ export default function page({ }: Props) {
                             />
                         </div>
                     </div>
+                    <CourseList title="Recommended for you" styles="bg-gray-200" />
+                    <CourseList title="Get choice of your course" styles="bg-gray-100" />
+                    <CourseList title="The course in personal development" styles="bg-[#9DCCFF]/50 pb-6" />
+                    <CourseList title="Student are viewing" styles="" />
                 </div>
+                <Footer />
             </ScrollArea>
         </section>
     );
