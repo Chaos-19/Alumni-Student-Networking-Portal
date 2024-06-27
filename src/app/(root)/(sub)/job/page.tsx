@@ -90,7 +90,7 @@ const jobPost = [
   },
 ];
 
-export default function page({}: Props) {
+export default function page({ }: Props) {
   return (
     <section className="border border-red-600">
       <div className="w-full p-2">
@@ -105,7 +105,7 @@ export default function page({}: Props) {
       </div>
       <ApplyJob
         discription=""
-        title="Edite Profile"
+        title="Apply For Job"
         users={[]}
         trigger={
           <Button className="fixed bottom-10 right-10 p-5 rounded-full text-white">

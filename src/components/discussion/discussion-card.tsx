@@ -55,7 +55,9 @@ const DiscussionCard = ({ post }: Props) => {
           <DiscussionDropDown />
         </div>
         <CardTitle className="text-base">{post.title}</CardTitle>
-        <CardDescription>{post.description}</CardDescription>
+        <CardDescription>
+          {post.description}
+          </CardDescription>
       </CardHeader>
       <CardFooter>
         <div className="w-full flex flex-col md:flex-row md:items-center md:justify-between gap-4 md:gap-0 ">
