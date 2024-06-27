@@ -44,7 +44,7 @@ export default function page({ }: Props) {
               />
               Your browser does not support the video tag.
             </video>
-            <div className="flex justify-between w-full border border-red-50">
+            <div className="flex justify-between w-full">
               <div className="flex flex-col justify-center gap-4 ">
                 <h2 className="text-xl font-bold text-[#303972]">
                   {course.title}

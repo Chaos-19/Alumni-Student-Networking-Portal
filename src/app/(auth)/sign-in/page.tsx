@@ -2,12 +2,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -17,7 +22,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { FaGooglePlusG } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
-import BookIcon, { SignInIcon } from "@/components/icons/bookp-icon";
+import { SignInIcon } from "@/components/icons/bookp-icon";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -30,6 +35,7 @@ const FormSchema = z.object({
   confirmPassword: z
     .string()
     .min(8, { message: "must be match the password." }),
+  role: z.enum(["ADMIN", "USER"]).default("USER"),
 });
 
 export default function SignUp() {
@@ -38,6 +44,9 @@ export default function SignUp() {
     defaultValues: {
       firstName: "",
       email: "",
+      password: "",
+      confirmPassword: "",
+      role: "USER",
     },
   });
 
@@ -53,13 +62,13 @@ export default function SignUp() {
   }
 
   return (
-    <div className="bg-gray-100 w-screen h-screen flex justify-center items-center overflow-y-scroll scroll-pt-10">
+    <div className="bg-gray-100 w-full h-screen flex justify-center items-center">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="md:w-full lg:w-2/3 bg-slate-50 overflow-y-auto md:grid grid-cols-1 md:grid-cols-2 border rounded-md shadow-2xl"
+          className="md:w-2/3 bg-slate-50 overflow-y-auto md:grid grid-cols-1 md:grid-cols-2 border rounded-md shadow-2xl"
         >
-          <div className="py-5 pt-8 order-2 divide-x-2 divide-yellow-400 divide-solid">
+          <div className="py-5 pt-8 order-2 divide-x-2 divide-yellow-400 divide-solid flex flex-col  h-full justify-center  ">
             <div>
               <Button
                 variant="outline"
@@ -69,31 +78,14 @@ export default function SignUp() {
                   size={34}
                   className="bg-primary text-white rounded p-1.5"
                 />{" "}
-                Signup with Google
+                Signin with Google
               </Button>
               <div className="flex items-center justify-center p-2 gap-0.5 text-gray-700 font-light text-sm sm:text-base">
-                <div className="w-3 h-0.5 bg-gray-800" /> Or signup with your
+                <div className="w-3 h-0.5 bg-gray-800" /> Or signin with your
                 email <div className="w-3 h-0.5 bg-gray-800" />
               </div>
             </div>
-            <div className="p-10 pt-0 flex flex-col gap-3">
-              <FormField
-                control={form.control}
-                name="firstName"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Full name</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Full name"
-                        className="rounded"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+            <div className="p-10 pt-0 flex flex-col justify-center gap-3">
               <FormField
                 control={form.control}
                 name="email"
@@ -129,37 +121,61 @@ export default function SignUp() {
                   </FormItem>
                 )}
               />
-              <div className="flex items-center space-x-2 py-2">
-                <Checkbox id="terms" className="rounded" />
-                <label
-                  htmlFor="terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I agreed to the{" "}
-                  <span className="font-black capitalize">
-                    terms and conditions
-                  </span>
-                </label>
-              </div>
+
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Role</FormLabel>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select role" className="rounded" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="ADMIN">ADMIN</SelectItem>
+                        <SelectItem value="USER">USER</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
               <Button
                 type="submit"
                 className="md:text-2xl font-black text-white rounded"
               >
-                Sign Up
+                Sign in
               </Button>
-              <p className="text-sm md:text-base">Alreay have account?  <Button variant="link">Sign in</Button></p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-2 py-2">
+                  <Checkbox id="terms" className="rounded" />
+                  <label
+                    htmlFor="terms"
+                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                  >
+                    keep me signed in
+                  </label>
+                </div>
+                <p className="text-secondary text-sm text-gray-500">
+                  Forgot password?
+                </p>
+              </div>
             </div>
           </div>
           <div className="hidden md:block w-full h-full bg-white p-8 space-y-2 order-1">
-            <div className="flex items-center">
-              <BookIcon />
-            </div>
-            <h2 className="text-lg sm:text-base md:text-2xl lg:text-4xl font-black text-[#0A033C] text-balance">
+            <h2 className="text-3xl font-black text-[#0A033C] text-balance">
               Welcome to
               <br />
-              Bahirdar Networking
+              Eduvi Online
               <br />
-              Platform
+              Learning Platform
             </h2>
             <div className="">
               <SignInIcon />

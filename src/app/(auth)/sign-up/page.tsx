@@ -17,7 +17,7 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/components/ui/use-toast";
 import { FaGooglePlusG } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
-import { SignInIcon } from "@/components/icons/bookp-icon";
+import BookIcon, { SignInIcon } from "@/components/icons/bookp-icon";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -53,13 +53,13 @@ export default function SignUp() {
   }
 
   return (
-    <div className="bg-gray-100 w-full h-full flex justify-center items-center">
+    <div className="bg-gray-100 w-screen h-screen flex justify-center items-center overflow-y-scroll scroll-pt-10">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="md:w-2/3 bg-slate-50 overflow-y-auto md:grid grid-cols-1 md:grid-cols-2 border rounded-md shadow-2xl"
+          className="md:w-full lg:w-2/3 bg-slate-50 overflow-y-auto md:grid grid-cols-1 md:grid-cols-2 border rounded-md shadow-2xl"
         >
-          <div className="py-5 pt-8 order-2 divide-x-2 divide-yellow-400 divide-solid flex flex-col  h-full justify-center  ">
+          <div className="py-5 pt-8 order-2 divide-x-2 divide-yellow-400 divide-solid">
             <div>
               <Button
                 variant="outline"
@@ -69,14 +69,31 @@ export default function SignUp() {
                   size={34}
                   className="bg-primary text-white rounded p-1.5"
                 />{" "}
-                Signin with Google
+                Signup with Google
               </Button>
               <div className="flex items-center justify-center p-2 gap-0.5 text-gray-700 font-light text-sm sm:text-base">
-                <div className="w-3 h-0.5 bg-gray-800" /> Or signin with your
+                <div className="w-3 h-0.5 bg-gray-800" /> Or signup with your
                 email <div className="w-3 h-0.5 bg-gray-800" />
               </div>
             </div>
-            <div className="p-10 pt-0 flex flex-col justify-center gap-3">
+            <div className="p-10 pt-0 flex flex-col gap-3">
+              <FormField
+                control={form.control}
+                name="firstName"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Full name</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Full name"
+                        className="rounded"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="email"
@@ -112,33 +129,37 @@ export default function SignUp() {
                   </FormItem>
                 )}
               />
+              <div className="flex items-center space-x-2 py-2">
+                <Checkbox id="terms" className="rounded" />
+                <label
+                  htmlFor="terms"
+                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                >
+                  I agreed to the{" "}
+                  <span className="font-black capitalize">
+                    terms and conditions
+                  </span>
+                </label>
+              </div>
               <Button
                 type="submit"
                 className="md:text-2xl font-black text-white rounded"
               >
-                Sign in
+                Sign Up
               </Button>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-2 py-2">
-                  <Checkbox id="terms" className="rounded" />
-                  <label
-                    htmlFor="terms"
-                    className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                  >
-                    keep me signed in
-                  </label>
-                </div>
-                <p className="text-secondary text-sm text-gray-500">Forgot password?</p>
-              </div>
+              <p className="text-sm md:text-base">Alreay have account?  <Button variant="link">Sign in</Button></p>
             </div>
           </div>
           <div className="hidden md:block w-full h-full bg-white p-8 space-y-2 order-1">
-            <h2 className="text-3xl font-black text-[#0A033C] text-balance">
+            <div className="flex items-center">
+              <BookIcon />
+            </div>
+            <h2 className="text-lg sm:text-base md:text-2xl lg:text-4xl font-black text-[#0A033C] text-balance">
               Welcome to
               <br />
-              Eduvi Online
+              Bahirdar Networking
               <br />
-              Learning Platform
+              Platform
             </h2>
             <div className="">
               <SignInIcon />

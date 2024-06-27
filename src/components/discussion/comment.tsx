@@ -13,8 +13,9 @@ import {
 import MarkdownPreview from "@uiw/react-markdown-preview/nohighlight";
 import { Button } from "../ui/button";
 import { Comment, Reply } from "../../../types/question";
+import DiscussionDropDown from "./drop-down";
 
-interface Props extends Comment {}
+interface Props extends Comment { }
 
 const CommentCard = ({
   user,
@@ -43,7 +44,7 @@ const CommentCard = ({
                 <p className="text-[10px]">{date}</p>
               </div>
             </div>
-            <EllipsisVertical />
+            <DiscussionDropDown />
           </div>
           <div className="mt-5">
             <MarkdownPreview
@@ -112,9 +113,9 @@ const Replay = ({ postuser, replies }: ReplayProp) => {
           </div>
         </CardHeader>
       </Card>
-      { Boolean(reply.replies?.length) && (
-          <Replay postuser={reply.user} replies={reply.replies!}  />
-        )
+      {Boolean(reply.replies?.length) && (
+        <Replay postuser={reply.user} replies={reply.replies!} />
+      )
       }
     </>
   ));

@@ -1,20 +1,20 @@
 "use client";
 import React from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardHeader, CardTitle } from "../ui/card";
 import Image from "next/image";
-import { ArrowUp, EllipsisVertical } from "lucide-react";
+import { ArrowUp } from "lucide-react";
 
 import MarkdownPreview from '@uiw/react-markdown-preview/nohighlight';
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { QuestionPostType } from "../../../types/question";
-
+import DiscussionDropDown from "./drop-down";
 
 
 
 const QuestionCard = ({ author, content, created_at, tags, title }: QuestionPostType) => {
   return (
-    <Card className="px-5 py-6 rounded">
+    <Card className="px-5 py-6 rounded border-2 border-600-red">
       <CardHeader className="gap-3">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -31,7 +31,7 @@ const QuestionCard = ({ author, content, created_at, tags, title }: QuestionPost
               <p className="text-[10px]">{created_at}</p>
             </div>
           </div>
-          <EllipsisVertical />
+          <DiscussionDropDown />
         </div>
         <CardTitle className="text-xl font-bold">{title}</CardTitle>
         <div className="mt-5">

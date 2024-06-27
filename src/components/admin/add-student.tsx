@@ -100,7 +100,7 @@ const AddStudent = (props: Props) => {
                       )}
                     />
                     <div className="flex flex-col w-full gap-3">
-                      <div className="flex items-center gap-5 justify-around">
+                      <div className="grid grid-cols-2 gap place-content-stretch gap-y-4">
                         <FormField
                           control={form.control}
                           name="name"
@@ -112,7 +112,7 @@ const AddStudent = (props: Props) => {
                               <FormControl>
                                 <Input
                                   placeholder="full name"
-                                  className="flex-1 w-60"
+                                  className="flex-1 w-60 "
                                   {...field}
                                 />
                               </FormControl>
@@ -139,8 +139,6 @@ const AddStudent = (props: Props) => {
                             </FormItem>
                           )}
                         />
-                      </div>
-                      <div className="flex items-center gap-5 px-4 justify-around">
                         <FormField
                           control={form.control}
                           name="yerarofstudy"
@@ -179,8 +177,6 @@ const AddStudent = (props: Props) => {
                             </FormItem>
                           )}
                         />
-                      </div>
-                      <div className="flex items-center gap-5 px-4 justify-around">
                         <FormField
                           control={form.control}
                           name="email"
@@ -219,8 +215,6 @@ const AddStudent = (props: Props) => {
                             </FormItem>
                           )}
                         />
-                      </div>
-                      <div className="flex items-center gap-5 px-[20px]">
                         <FormField
                           control={form.control}
                           name="interest"

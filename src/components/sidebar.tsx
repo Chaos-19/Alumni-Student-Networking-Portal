@@ -32,7 +32,7 @@ export function Sidebar({ links, isCollapsed, isMobile }: SidebarProps) {
   return (
     <div
       data-collapsed={isCollapsed}
-      className="relative group flex flex-col h-full gap-4 p-2 data-[collapsed=true]:p-2 "
+      className="relative group flex flex-col h-screen gap-4 p-2 data-[collapsed=true]:p-2 "
     >
       {!isCollapsed && (
         <div className="flex p-2 flex-col gap-2 justify-center">

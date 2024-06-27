@@ -3,7 +3,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -26,6 +26,15 @@ import { Textarea } from "../ui/textarea";
 import { Input } from "../ui/input";
 import { Card, CardContent } from "../ui/card";
 import { Image } from "lucide-react";
+import {
+  FileUploader,
+  FileInput,
+  FileUploaderContent,
+  FileUploaderItem,
+} from "@/components/extension/file-upload";
+import { DropzoneOptions } from "react-dropzone";
+import { cn } from "@/lib/utils";
+import { AspectRatio } from "../ui/aspect-ratio";
 
 const FormSchema = z.object({
   contentCatagory: z.string({
@@ -33,6 +42,16 @@ const FormSchema = z.object({
   }),
   title: z.string({}),
   question: z.string({}),
+  files: z
+    .array(
+      z.instanceof(File).refine((file) => file.size < 4 * 1024 * 1024, {
+        message: "File size must be less than 4MB",
+      })
+    )
+    .max(5, {
+      message: "Maximum 2 files are allowed",
+    })
+    .nullable(),
 });
 
 export default function QuestionForm() {
@@ -44,6 +63,12 @@ export default function QuestionForm() {
       question: "",
     },
   });
+
+  const dropzone = {
+    multiple: true,
+    maxFiles: 2,
+    maxSize: 4 * 1024 * 1024,
+  } satisfies DropzoneOptions;
 
   function onSubmit(data: z.infer<typeof FormSchema>) {
     toast({
@@ -122,8 +147,29 @@ export default function QuestionForm() {
             )}
           />
           <div className="flex items-center justify-between w-full">
-            <Button className="bg-blue-700 text-white flex items-center gap-2 rounded"><Image /> Add Image</Button>
 
+            <FormField
+              control={form.control}
+              name="files"
+              render={({ field }) => (
+                <FormItem>
+                  <FileUploader
+                    value={field.value}
+                    onValueChange={field.onChange}
+                    dropzoneOptions={dropzone}
+                    reSelect={true}
+                  >
+                    <FileInput
+                      className={""}
+                    >
+                      <Button className="bg-blue-700 text-white flex items-center gap-2 rounded relative z-10">
+                        <Image /> Add Image
+                      </Button>
+                    </FileInput>
+                  </FileUploader>
+                </FormItem>
+              )}
+            />
             <div className="flex items-center gap-2">
               <Button variant="secondary" className="rounded">Save as draft</Button>
               <Button type="submit" className="rounded">publish</Button>

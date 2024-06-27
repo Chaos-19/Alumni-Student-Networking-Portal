@@ -1,3 +1,4 @@
+"use client"
 import {
   Card,
   CardDescription,
@@ -7,12 +8,12 @@ import {
 } from "@/components/ui/card";
 import {
   ArrowUp,
-  EllipsisVertical,
   Eye,
   MessageSquare,
 } from "lucide-react";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
+import DiscussionDropDown from "./drop-down";
 
 type Props = {
   post: {
@@ -51,7 +52,7 @@ const DiscussionCard = ({ post }: Props) => {
               <p className="text-[10px]">{post.time}</p>
             </div>
           </div>
-          <EllipsisVertical />
+          <DiscussionDropDown />
         </div>
         <CardTitle className="text-base">{post.title}</CardTitle>
         <CardDescription>{post.description}</CardDescription>
