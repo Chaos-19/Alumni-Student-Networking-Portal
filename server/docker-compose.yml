@@ -1,0 +1,33 @@
+services:
+  db:
+    image: postgis/postgis:16-3.4
+    restart: always
+    volumes:
+      - dbData:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: 0b55cbc8182b40f7aa5606dbb4080ba9
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_DB: alumni
+    ports:
+      - 7878:5432
+    networks:
+      - backend
+  alumni:
+    # Configuration for building the docker image for the service
+    build:
+      context: . # Use an image built from the specified dockerfile in the current directory.
+      dockerfile: Dockerfile
+    ports:
+      - "8081:8081" # Forward the exposed port 8080 on the container to port 8080 on the host machine
+    restart: unless-stopped
+    depends_on: 
+      - db
+    environment: # Pass environment variables to the service
+      DB_DSN: postgres://postgres:0b55cbc8182b40f7aa5606dbb4080ba9@db:5432/alumni?sslmode=disable
+    networks: # Networks to join (Services on the same network can communicate with each other using their name)
+      - backend
+networks:
+  backend: 
+
+volumes:
+  dbData:
