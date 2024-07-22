@@ -41,16 +41,27 @@ export default function SignUp() {
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+  
+    try {
+        const response = await fetch('http://localhost:8081/v1/users', {
+            method: 'POST',
+            body: JSON.stringify(data, null, 2),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        toast({
+          title: "User registered successfully",
+        });
+    } catch (error) {
+      toast({
+        title: "Unable to signup user",
+      });
+    }
+}
 
   return (
     <div className="bg-gray-100 w-screen h-screen flex justify-center items-center overflow-y-scroll scroll-pt-10">

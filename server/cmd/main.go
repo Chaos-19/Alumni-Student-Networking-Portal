@@ -6,6 +6,13 @@ import (
 	"log"
 	"os"
 
+	"github.com/Chaos-19/Alumni-Student-Networking-Portal/module"
+	um "github.com/Chaos-19/Alumni-Student-Networking-Portal/module/user"
+	"github.com/Chaos-19/Alumni-Student-Networking-Portal/storage"
+	"github.com/Chaos-19/Alumni-Student-Networking-Portal/storage/user"
+	"github.com/Chaos-19/Alumni-Student-Networking-Portal/view"
+	uv "github.com/Chaos-19/Alumni-Student-Networking-Portal/view/user"
+	"github.com/gin-gonic/gin"
 	"github.com/golang-migrate/migrate/v4"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -42,11 +49,39 @@ func NewDB(url string) (*gorm.DB, error) {
 	return conn, nil
 }
 
+func NewStorage(db *gorm.DB) storage.Storage {
+	return storage.Storage{User: user.NewUserStorage(db)}
+}
+
+func NewModule(s storage.Storage) module.Module {
+	return module.Module{User: um.NewUserModule(s.User)}
+}
+
+func NewView(m module.Module) view.View {
+	return view.View{User: uv.NewUserView(m.User)}
+}
+
 func main() {
-	_, err := NewDB(os.Getenv("DB_DSN"))
+	db, err := NewDB(os.Getenv("DB_DSN"))
 	if err != nil {
 		log.Fatal("unable to start db", err)
 	}
 
-	log.Println("test connection success")
+	// run migration
+	_ = InitiateMigration("/sql/schemas", os.Getenv("DB_DSN"))
+
+	// init basic service
+	storage := NewStorage(db)
+	module := NewModule(storage)
+	view := NewView(module)
+
+	r := gin.Default()
+	v1 := r.Group("/v1")
+
+	v1.POST("/users", view.User.CreateUser)
+
+	err = r.Run(":8081")
+	if err != nil {
+		log.Fatal("error starting the server", err)
+	}
 }

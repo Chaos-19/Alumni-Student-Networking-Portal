@@ -9,3 +9,7 @@ import (
 type User interface {
 	CreateUser(ctx context.Context, u models.SignUpForm) (models.User, error)
 }
+
+type Module struct {
+	User User
+}
