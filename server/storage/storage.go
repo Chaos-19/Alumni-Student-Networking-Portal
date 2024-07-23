@@ -8,6 +8,7 @@ import (
 
 type User interface {
 	CreateUser(ctx context.Context, up *models.User) error
+	GetUser(ctx context.Context, up *models.User) error
 }
 
 type Storage struct {

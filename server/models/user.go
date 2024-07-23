@@ -3,6 +3,7 @@ package models
 import (
 	"time"
 
+	"github.com/golang-jwt/jwt/v5"
 	"github.com/google/uuid"
 )
 
@@ -22,4 +23,19 @@ type SignUpForm struct {
 	Email           string `json:"email"`
 	Password        string `json:"password"`
 	ConfirmPassword string `json:"confirmPassword"`
+}
+
+type SignIn struct {
+	Email    string `json:"email"`
+	Password string `json:"password"`
+}
+
+type SignInResponse struct {
+	UserID      string `json:"user_id"`
+	AccessToken string `json:"access_token"`
+}
+
+type UserClaims struct {
+	jwt.RegisteredClaims
+	UserID string `json:"user_id"`
 }

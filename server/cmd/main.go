@@ -14,6 +14,8 @@ import (
 	uv "github.com/Chaos-19/Alumni-Student-Networking-Portal/view/user"
 	"github.com/gin-gonic/gin"
 	"github.com/golang-migrate/migrate/v4"
+	_ "github.com/golang-migrate/migrate/v4/database/postgres"
+	_ "github.com/golang-migrate/migrate/v4/source/file"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
@@ -24,7 +26,7 @@ func InitiateMigration(path, conn string) *migrate.Migrate {
 	log.Println(context.Background(), "connection "+conn+" "+path)
 
 	if err != nil {
-		log.Fatal("could not create migrator")
+		log.Fatal("could not create migrator", err)
 	}
 
 	return m
@@ -33,7 +35,7 @@ func InitiateMigration(path, conn string) *migrate.Migrate {
 func UpMigration(m *migrate.Migrate) {
 	err := m.Up()
 	if err != nil && err != migrate.ErrNoChange {
-		log.Fatal("could not migrate")
+		log.Fatal("could not migrate", err)
 	}
 }
 
@@ -54,7 +56,7 @@ func NewStorage(db *gorm.DB) storage.Storage {
 }
 
 func NewModule(s storage.Storage) module.Module {
-	return module.Module{User: um.NewUserModule(s.User)}
+	return module.Module{User: um.NewUserModule(s.User, "")}
 }
 
 func NewView(m module.Module) view.View {
@@ -79,6 +81,7 @@ func main() {
 	v1 := r.Group("/v1")
 
 	v1.POST("/users", view.User.CreateUser)
+	v1.POST("/users/login")
 
 	err = r.Run(":8081")
 	if err != nil {

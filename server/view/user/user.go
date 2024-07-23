@@ -43,3 +43,15 @@ func (u *userView) CreateUser(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, view.SuccessResponse(resp))
 }
+
+func (u *userView) Login(ctx *gin.Context) {
+	var lr models.SignIn
+	err := ctx.ShouldBind(&lr)
+	if err != nil {
+		log.Println("unable to bind to user sign in data", err)
+		ctx.JSON(http.StatusBadRequest, "invalid request object")
+		return
+	}
+
+	ctx.JSON(http.StatusOK, view.SuccessResponse(nil))
+}
