@@ -18,6 +18,7 @@ import { toast } from "@/components/ui/use-toast";
 import { FaGooglePlusG } from "react-icons/fa";
 import { Checkbox } from "@/components/ui/checkbox";
 import BookIcon, { SignInIcon } from "@/components/icons/bookp-icon";
+import { json } from "stream/consumers";
 
 const FormSchema = z.object({
   firstName: z.string().min(2, {
@@ -27,9 +28,9 @@ const FormSchema = z.object({
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters." }),
-  confirmPassword: z
-    .string()
-    .min(8, { message: "must be match the password." }),
+  // confirmPassword: z
+  //   .string()
+  //   .min(8, { message: "must be match the password." }),
 });
 
 export default function SignUp() {
@@ -42,11 +43,14 @@ export default function SignUp() {
   });
 
   async function onSubmit(data: z.infer<typeof FormSchema>) {
-  
+    console.log(JSON.stringify(data))
     try {
         const response = await fetch('http://localhost:8081/v1/users', {
+            headers: {
+              "Content-Type": "application/json",
+            },
             method: 'POST',
-            body: JSON.stringify(data, null, 2),
+            body: JSON.stringify(data),
         });
 
         if (!response.ok) {

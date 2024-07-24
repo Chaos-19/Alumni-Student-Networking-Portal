@@ -1,57 +1,165 @@
-import PublishBtn from "@/components/alumni/publish-btn";
-import { Button } from "@/components/ui/button";
+"use client";
+import AdminCard from "@/components/alumni/card";
+import MentorsList from "@/components/alumni/mentors-list";
+import StatisticView from "@/components/alumni/statistic-view";
+import FileUploaderTest from "@/components/alumni/upload";
+import UploadHistory from "@/components/alumni/upload-history";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageCircle, Plus } from "lucide-react";
-import React from "react";
-import { FaComment } from "react-icons/fa";
+import { Plus } from "lucide-react";
+import React, { useState } from "react";
+
+import MentorshipForm, { MentorshipFormData } from "@/components/alumni/mentorship-form";  // Import the new form component
 
 type Props = {};
 
-export default function page({ }: Props) {
+const card = [
+  {
+    title: "Uploads",
+    total: 550,
+    date: "12/20/24",
+    img: "/Analytics.png",
+  },
+  {
+    title: "Mentee",
+    total: 200,
+    date: "12/20/24",
+    img: "/upload.png",
+  },
+];
+
+const statistic = [
+  {
+    persent: 50,
+    title: "New Mentee",
+  },
+  {
+    persent: 21,
+    title: "Resource Utilization",
+  },
+  {
+    persent: 74,
+    title: "Video Retention",
+  },
+];
+
+const mentors = [
+  {
+    name: "Ann",
+    img: "/ann.png",
+  },
+  {
+    name: "Monica",
+    img: "/monica.png",
+  },
+  {
+    name: "John",
+    img: "/john.png",
+  },
+  {
+    name: "Mike",
+    img: "/mike.png",
+  },
+  {
+    name: "Mia",
+    img: "/mia.png",
+  },
+];
+
+const uploadHistory = [
+  {
+    reciever: "Tesco Market",
+    type: "Video",
+    date: "13 Dec 2020",
+  },
+  {
+    reciever: "ElectroMen Market",
+    type: "Shopping",
+    date: "14 Dec 2020",
+  },
+  {
+    reciever: "Fiorgio Restaurant",
+    type: "Food",
+    date: "07 Dec 2020",
+  },
+  {
+    reciever: "John Mathew Kayne",
+    type: "Sport",
+    date: "06 Dec 2020",
+  },
+  {
+    reciever: "Ann Marlin",
+    type: "Shopping",
+    date: "31 Nov 2020",
+  },
+];
+
+export default function Page({ }: Props) {
+  const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
+  const handleFilesChange = (files: File[] | null) => {
+    setUploadedFiles(files);
+    console.log(uploadedFiles);
+  };
+
+  const handleFormSubmit = (formData: MentorshipFormData) => {
+    console.log("Form Data Submitted:", formData);
+    // Handle form submission logic here
+  };
+
   return (
     <section>
       <ScrollArea className="w-full h-screen">
-        <div className="py-5 pb-32 relative">
+        <div className="lg:max-w-screen-xl mx-auto py-5 pb-32 relative">
           <div>
-            <h2 className="text-2xl font-bold capitalize">Mentorship Files</h2>
-            <p className="text-base text-gray-500">
-              Upload material for your mentorship program
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 my-5">
-            <h2 className="text-lg font-medium capitalize">Job description</h2>
-            <div className="h-52 border-b-2 border-b-black max-w-xl border bg-gray-200 "></div>
-          </div>
-          <div>
-            <h2 className="text-lg font-semibold capitalize">Skill</h2>
-            <Button
-              variant="outline"
-              className="font-medium px-4 py-1 rounded-full flex items-center gap-1"
-            >
-              Add skill <Plus size={18} />{" "}
-            </Button>
-          </div>
-          <div className="w-full flex flex-col justify-center gap-2 my-5 ">
-            <h2 className="text-lg font-semibold capitalize">
-              Screening Questions
-            </h2>
-            <div className="flex items-center gap-2 flex-wrap max-w-lg">
-              {Array.from({ length: 10 }).map((val, key) => (
-                <Button
-                  variant="outline"
-                  className="font-medium px-4 py-1 rounded-full flex items-center gap-1"
-                  key={key + "-keyu"}
-                >
-                  Add skill <Plus size={18} />{" "}
-                </Button>
-              ))}
-            </div>
-            <div className="flex flex-col justify-center gap-2">
-              <PublishBtn />
+            <div className="">
+              <h2 className="text-2xl font-bold capitalize">
+                Mentorship Program
+              </h2>
+              {/* <p className="text-base text-gray-500">
+                Upload material for your mentorship program
+              </p> */}
+              <div className="grid grid-cols-[60%_40%]">
+                <div className="">
+                  <div className="">
+                    <FileUploaderTest onFilesChange={handleFilesChange} />
+                  </div>
+                  <div className="border4 border-red-900 flex flex-col gap-5">
+                  <h3 className="text-xl font-semibold mt-8">Add Mentorship Program</h3>
+                  <MentorshipForm onSubmit={handleFormSubmit} />
+                  </div>
+                  <div className="border4 border-red-900 flex flex-col gap-5">
+                    <h4 className="text-lg font-semibold">Upload History</h4>
+                    <UploadHistory data={uploadHistory} />
+                  </div>
+                </div>
+                <div className="p-3 flex flex-col gap-2">
+                  <h5 className="flex items-center gap-2 text-xl font-medium">
+                    Goals{" "}
+                    <Plus
+                      size={22}
+                      className="bg-yellow-500 rounded-full p-1"
+                    />{" "}
+                  </h5>
+                  <div className="flex items-center gap-3">
+                    {card.map((data) => (
+                      <AdminCard key={data.title} {...data} />
+                    ))}
+                  </div>
+                  <div className="flex flex-col gap-2 space-y-8">
+                    <h4 className="text-xl font-semibold">
+                      Outcome Statistics
+                    </h4>
+                    <div className="w-full flex flex-col justify-center gap-4">
+                      {statistic.map((data) => (
+                        <StatisticView key={data.title} {...data} />
+                      ))}
+                    </div>
+                  </div>
+                  <MentorsList data={mentors} />
+                </div>
+              </div>
             </div>
           </div>
         </div>
-
       </ScrollArea>
     </section>
   );

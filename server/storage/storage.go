@@ -11,6 +11,14 @@ type User interface {
 	GetUser(ctx context.Context, up *models.User) error
 }
 
+type Mentorship interface {
+	CreateMentorship(ctx context.Context, mp *models.Mentorship) error
+	GetMentorships(ctx context.Context) ([]models.Mentorship, error)
+	GetMentorship(ctx context.Context, mp *models.Mentorship) error
+	UpdateMentorship(ctx context.Context, mp *models.Mentorship) error
+}
+
 type Storage struct {
-	User User
+	User       User
+	Mentorship Mentorship
 }

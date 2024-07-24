@@ -28,12 +28,6 @@ func (u *userView) CreateUser(ctx *gin.Context) {
 		return
 	}
 
-	if usr.Password != usr.ConfirmPassword {
-		log.Println("invalid password")
-		ctx.JSON(http.StatusBadRequest, "mismatch password")
-		return
-	}
-
 	resp, err := u.user.CreateUser(ctx, usr)
 	if err != nil {
 		log.Println("unable to create user", err)
@@ -53,5 +47,12 @@ func (u *userView) Login(ctx *gin.Context) {
 		return
 	}
 
-	ctx.JSON(http.StatusOK, view.SuccessResponse(nil))
+	resp, err := u.user.Login(ctx, lr)
+	if err != nil {
+		log.Println("unable to bind to user sign in data", err)
+		ctx.JSON(http.StatusInternalServerError, "invalid request object")
+		return
+	}
+
+	ctx.JSON(http.StatusOK, view.SuccessResponse(resp))
 }

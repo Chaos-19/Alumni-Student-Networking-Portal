@@ -11,5 +11,5 @@ ENV ZONEINFO=/zoneinfo.zip
 COPY --from=builder /usr/local/go/lib/time/zoneinfo.zip /zoneinfo.zip
 COPY --from=builder /sql/schemas /sql/schemas
 COPY --from=builder /bin/alumni .
-
+RUN mkdir /uploads
 ENTRYPOINT [ "./alumni" ]

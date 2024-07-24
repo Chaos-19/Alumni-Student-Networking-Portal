@@ -11,6 +11,14 @@ type User interface {
 	Login(ctx context.Context, lr models.SignIn) (models.SignInResponse, error)
 }
 
+type Mentorship interface {
+	CreateMentorship(ctx context.Context, mp *models.Mentorship) error
+	GetMentorships(ctx context.Context) ([]models.Mentorship, error)
+	GetMentorship(ctx context.Context, mp *models.Mentorship) error
+	UpdateMentorship(ctx context.Context, mp *models.Mentorship) error
+}
+
 type Module struct {
-	User User
+	User       User
+	Mentorship Mentorship
 }

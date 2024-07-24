@@ -1,3 +1,4 @@
+"use client"
 import AdminCard from "@/components/alumni/card";
 import MentorsList from "@/components/alumni/mentors-list";
 import StatisticView from "@/components/alumni/statistic-view";
@@ -5,7 +6,10 @@ import FileUploaderTest from "@/components/alumni/upload";
 import UploadHistory from "@/components/alumni/upload-history";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus } from "lucide-react";
-import React from "react";
+import React, { useState } from "react";
+import MentorshipForm, { MentorshipFormData } from "@/components/alumni/mentorship-form";  // Import the new form component
+
+
 
 type Props = {};
 
@@ -90,6 +94,56 @@ const uploadHistory = [
 ];
 
 export default function page({ }: Props) {
+  const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
+  const handleFilesChange = (files: File[] | null) => {
+    setUploadedFiles(files);
+    console.log(uploadedFiles);
+  };
+
+  const handleFormSubmit = async (formData: MentorshipFormData) => {
+    // Create a FormData object
+    const formDataToSend = new FormData();
+  
+    // Append form fields to the FormData object
+    formDataToSend.append("title", formData.title);
+    formDataToSend.append("videoDescription", formData.videoDescription);
+    formDataToSend.append("programSummary", formData.programSummary);
+    formDataToSend.append("externalLinks", formData.externalLinks);
+    formDataToSend.append("menteesQuota", formData.menteesQuota.toString());
+  
+    // Append files to the FormData object
+    if (uploadedFiles) {
+      uploadedFiles.forEach((file) => {
+        formDataToSend.append(`files`, file);
+      });
+    }
+
+
+    const uID = localStorage.getItem('user-id') || ""
+  
+  
+    // Send the POST request using fetch
+    try {
+      const response = await fetch("http://localhost:8081/v1/mentorships", {
+        headers: {
+          "x-user-id": uID,
+        },
+        method: "POST",
+        body: formDataToSend,
+      });
+  
+      if (!response.ok) {
+        throw new Error("Network response was not ok: " + response.statusText);
+      }
+  
+      const result = await response.json();
+      console.log("Form Submission Successful:", result);
+
+    } catch (error) {
+      console.error("Form Submission Error:", error);
+    }
+  };
+
   return (
     <section>
       <ScrollArea className="w-full h-screen">
@@ -105,7 +159,11 @@ export default function page({ }: Props) {
               <div className="grid grid-cols-[60%_40%]">
                 <div className="">
                   <div className="">
-                    <FileUploaderTest />
+                    <FileUploaderTest onFilesChange={handleFilesChange} />
+                  </div>
+                  <div className="border4 border-red-900 flex flex-col gap-5">
+                  <h3 className="text-xl font-semibold mt-8">Add Mentorship Program</h3>
+                  <MentorshipForm onSubmit={handleFormSubmit} />
                   </div>
                   <div className="border4 border-red-900 flex flex-col gap-5">
                     <h4 className="text-lg font-semibold">Upload History</h4>

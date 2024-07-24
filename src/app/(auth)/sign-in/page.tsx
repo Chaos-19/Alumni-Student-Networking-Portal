@@ -25,16 +25,10 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { SignInIcon } from "@/components/icons/bookp-icon";
 
 const FormSchema = z.object({
-  firstName: z.string().min(2, {
-    message: "firstName must be at least 2 characters.",
-  }),
   email: z.string().email({ message: "Please enter a valid email." }),
   password: z
     .string()
     .min(8, { message: "Password must be at least 8 characters." }),
-  confirmPassword: z
-    .string()
-    .min(8, { message: "must be match the password." }),
   role: z.enum(["ADMIN", "USER"]).default("USER"),
 });
 
@@ -42,24 +36,39 @@ export default function SignUp() {
   const form = useForm<z.infer<typeof FormSchema>>({
     resolver: zodResolver(FormSchema),
     defaultValues: {
-      firstName: "",
       email: "",
       password: "",
-      confirmPassword: "",
       role: "USER",
     },
   });
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  async function onSubmit(data: z.infer<typeof FormSchema>) {
+    console.log(JSON.stringify(data))
+    try {
+        const response = await fetch('http://localhost:8081/v1/users/login', {
+            headers: {
+              "Content-Type": "application/json",
+            },
+            method: 'POST',
+            body: JSON.stringify(data),
+        });
+
+        if (!response.ok) {
+            throw new Error('Network response was not ok');
+        }
+
+        const rd = await response.json()
+        localStorage.setItem('user-id', rd.data.user_id);
+
+        toast({
+          title: "user logged in successfully",
+        });
+    } catch (error) {
+      toast({
+        title: "Unable to sign in user",
+      });
+    }
+}
 
   return (
     <div className="bg-gray-100 w-full h-screen flex justify-center items-center">

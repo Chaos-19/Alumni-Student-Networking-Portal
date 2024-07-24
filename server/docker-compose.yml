@@ -12,6 +12,11 @@ services:
       - 7878:5432
     networks:
       - backend
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -d alumni" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
   alumni:
     # Configuration for building the docker image for the service
     build:
@@ -20,6 +25,8 @@ services:
     ports:
       - "8081:8081" # Forward the exposed port 8080 on the container to port 8080 on the host machine
     restart: unless-stopped
+    volumes:
+      - uploadedAssets:/uploads
     depends_on: 
       - db
     environment: # Pass environment variables to the service
@@ -31,3 +38,4 @@ networks:
 
 volumes:
   dbData:
+  uploadedAssets:

@@ -43,9 +43,11 @@ const FileSvgDraw = () => {
   );
 };
 
-const FileUploaderTest = ({}:{
-    
-}) => {
+interface FileUploaderTestProps {
+  onFilesChange: (files: File[] | null) => void;
+}
+
+const FileUploaderTest: React.FC<FileUploaderTestProps> = ({ onFilesChange }) => {
   const [files, setFiles] = useState<File[] | null>(null);
 
   const dropZoneConfig = {
@@ -54,10 +56,15 @@ const FileUploaderTest = ({}:{
     multiple: true,
   };
 
+  const handleFilesChange = (newFiles: File[] | null) => {
+    setFiles(newFiles);
+    onFilesChange(newFiles);
+  };
+
   return (
     <FileUploader
       value={files}
-      onValueChange={setFiles}
+      onValueChange={(files)=> handleFilesChange(files)}
       dropzoneOptions={dropZoneConfig}
       className="relative bg-background rounded-lg pr-2 py-2"
     >

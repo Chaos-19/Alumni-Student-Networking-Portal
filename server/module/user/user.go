@@ -23,7 +23,7 @@ func NewUserModule(us storage.User, secretKey string) module.User {
 }
 
 func (u *userModule) CreateUser(ctx context.Context, up models.SignUpForm) (models.User, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(up.Password), 8)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(up.Password), bcrypt.DefaultCost)
 	if err != nil {
 		return models.User{}, err
 	}
@@ -46,13 +46,14 @@ func (u *userModule) CreateUser(ctx context.Context, up models.SignUpForm) (mode
 
 // HashPassword generates a bcrypt hash of the password.
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 8)
 	return string(bytes), err
 }
 
 // CheckPasswordHash compares the hashed password with the plain password.
-func CheckPasswordHash(password, hash string) bool {
+func CheckPasswordHash(hash, password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	log.Println("mismatch password", err)
 	return err == nil
 }
 
@@ -64,18 +65,27 @@ func (u *userModule) Login(ctx context.Context, lr models.SignIn) (models.SignIn
 		return models.SignInResponse{}, fmt.Errorf("unable to find user")
 	}
 
-	hash, err := HashPassword(lr.Password)
-	if err != nil {
-		log.Println("unable to hash password", err)
-		return models.SignInResponse{}, fmt.Errorf("unable to find user")
-	}
-
-	if !CheckPasswordHash(usr.PasswordHash, hash) {
-		log.Println("invalid password")
+	if !CheckPasswordHash(usr.PasswordHash, lr.Password) {
+		log.Println("invalid password", lr.Password, usr.PasswordHash)
 		return models.SignInResponse{}, fmt.Errorf("incorrect username or password")
 	}
 
-	return models.SignInResponse{}, nil
+	ac, err := u.Generate(&models.UserClaims{
+		RegisteredClaims: jwt.RegisteredClaims{
+			Issuer:  "ALUMNI",
+			Subject: "BDU",
+		},
+		UserID: usr.ID.String(),
+	})
+	if err != nil {
+		log.Println("invalid password", lr.Password, usr.PasswordHash)
+		return models.SignInResponse{}, fmt.Errorf("internal server error")
+	}
+
+	return models.SignInResponse{
+		UserID:      usr.ID.String(),
+		AccessToken: ac,
+	}, nil
 }
 
 func (u *userModule) Generate(userClaims *models.UserClaims) (string, error) {
