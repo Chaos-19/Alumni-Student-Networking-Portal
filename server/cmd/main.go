@@ -116,6 +116,7 @@ func main() {
 	v1.POST("/users", view.User.CreateUser)
 	v1.POST("/users/login", view.User.Login)
 	v1.POST("/mentorships", view.Mentorship.CreateMentorship)
+	v1.GET("/mentorships", view.Mentorship.GetMentorships)
 
 	err = r.Run(":8081")
 	if err != nil {

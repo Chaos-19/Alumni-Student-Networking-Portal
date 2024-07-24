@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import AdminCard from "@/components/alumni/card";
 import MentorsList from "@/components/alumni/mentors-list";
 import StatisticView from "@/components/alumni/statistic-view";
@@ -6,10 +6,11 @@ import FileUploaderTest from "@/components/alumni/upload";
 import UploadHistory from "@/components/alumni/upload-history";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus } from "lucide-react";
-import React, { useState } from "react";
-import MentorshipForm, { MentorshipFormData } from "@/components/alumni/mentorship-form";  // Import the new form component
-
-
+import React, { useState, useEffect } from "react";
+import MentorshipForm, {
+  MentorshipFormData,
+} from "@/components/alumni/mentorship-form"; // Import the new form component
+import useUploadHistory from "@/hooks/mentorship_post";
 
 type Props = {};
 
@@ -93,56 +94,61 @@ const uploadHistory = [
   },
 ];
 
-export default function page({ }: Props) {
+export default function Page({}: Props) {
+  const { uploadHistory, loading, error } = useUploadHistory();
   const [uploadedFiles, setUploadedFiles] = useState<File[] | null>(null);
+
+  // Handle file changes
   const handleFilesChange = (files: File[] | null) => {
     setUploadedFiles(files);
-    console.log(uploadedFiles);
   };
 
+  // Handle form submission
   const handleFormSubmit = async (formData: MentorshipFormData) => {
-    // Create a FormData object
     const formDataToSend = new FormData();
-  
-    // Append form fields to the FormData object
+
+    // Append form fields to FormData
     formDataToSend.append("title", formData.title);
     formDataToSend.append("videoDescription", formData.videoDescription);
     formDataToSend.append("programSummary", formData.programSummary);
     formDataToSend.append("externalLinks", formData.externalLinks);
     formDataToSend.append("menteesQuota", formData.menteesQuota.toString());
-  
-    // Append files to the FormData object
+
+    // Append files to FormData if available
     if (uploadedFiles) {
       uploadedFiles.forEach((file) => {
-        formDataToSend.append(`files`, file);
+        formDataToSend.append("files", file); // Ensure consistent key for multiple files
       });
     }
 
+    const uID = localStorage.getItem("user-id") || "";
 
-    const uID = localStorage.getItem('user-id') || ""
-  
-  
-    // Send the POST request using fetch
     try {
       const response = await fetch("http://localhost:8081/v1/mentorships", {
+        method: "POST",
         headers: {
           "x-user-id": uID,
         },
-        method: "POST",
         body: formDataToSend,
       });
-  
+
       if (!response.ok) {
-        throw new Error("Network response was not ok: " + response.statusText);
+        throw new Error(`Network response was not ok: ${response.statusText}`);
       }
-  
+
       const result = await response.json();
       console.log("Form Submission Successful:", result);
-
     } catch (error) {
-      console.error("Form Submission Error:", error);
+      console.error(
+        "Form Submission Error:",
+        error instanceof Error ? error.message : "Unknown error"
+      );
     }
   };
+
+  // Render loading, error, or main content
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <section>
@@ -162,8 +168,10 @@ export default function page({ }: Props) {
                     <FileUploaderTest onFilesChange={handleFilesChange} />
                   </div>
                   <div className="border4 border-red-900 flex flex-col gap-5">
-                  <h3 className="text-xl font-semibold mt-8">Add Mentorship Program</h3>
-                  <MentorshipForm onSubmit={handleFormSubmit} />
+                    <h3 className="text-xl font-semibold mt-8">
+                      Add Mentorship Program
+                    </h3>
+                    <MentorshipForm onSubmit={handleFormSubmit} />
                   </div>
                   <div className="border4 border-red-900 flex flex-col gap-5">
                     <h4 className="text-lg font-semibold">Upload History</h4>

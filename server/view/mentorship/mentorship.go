@@ -101,3 +101,13 @@ func (m *mentorshipView) CreateMentorship(ctx *gin.Context) {
 func (m *mentorshipView) ApproveMentorship(ctx *gin.Context) {
 
 }
+
+func (m *mentorshipView) GetMentorships(ctx *gin.Context) {
+	resp, err := m.mentorshipModule.GetMentorships(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, view.ErrorResponse("unable to save mentorship meta data"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, view.SuccessResponse(resp))
+}

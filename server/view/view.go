@@ -21,6 +21,7 @@ type User interface {
 type Mentorship interface {
 	CreateMentorship(ctx *gin.Context)
 	ApproveMentorship(ctx *gin.Context)
+	GetMentorships(ctx *gin.Context)
 }
 
 func SuccessResponse(resp any) gin.H {

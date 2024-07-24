@@ -40,3 +40,10 @@ type MentorshipParticipants struct {
 	Registrant   uuid.UUID `json:"registrant" `
 	CreatedAt    time.Time `json:"created_at" `
 }
+
+type MentorshipList struct {
+	Name      string    `gorm:"column:name" json:"name"`
+	FirstName string    `gorm:"column:first_name" json:"first_name"`
+	Skill     string    `gorm:"column:skill" json:"skill"`
+	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
+}

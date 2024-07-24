@@ -13,7 +13,7 @@ type User interface {
 
 type Mentorship interface {
 	CreateMentorship(ctx context.Context, mp *models.Mentorship) error
-	GetMentorships(ctx context.Context) ([]models.Mentorship, error)
+	GetMentorships(ctx context.Context) ([]models.MentorshipList, error)
 	GetMentorship(ctx context.Context, mp *models.Mentorship) error
 	UpdateMentorship(ctx context.Context, mp *models.Mentorship) error
 }

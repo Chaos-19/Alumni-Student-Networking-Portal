@@ -2,6 +2,7 @@ package mentorship
 
 import (
 	"context"
+	"fmt"
 	"log"
 
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/models"
@@ -38,10 +39,15 @@ func (m *mentorshipStorage) CreateMentorship(ctx context.Context, mp *models.Men
 	return nil
 }
 
-func (m *mentorshipStorage) GetMentorships(ctx context.Context) ([]models.Mentorship, error) {
-	result := []models.Mentorship{}
-	m.db.Model(&models.Mentorship{}).Find(&result, "status = ?", "ADDED")
-	return nil, nil
+func (m *mentorshipStorage) GetMentorships(ctx context.Context) ([]models.MentorshipList, error) {
+	result := []models.MentorshipList{}
+	err := m.db.Raw("select m.name, u.first_name, m.skill, m.created_at from mentorships m join users u on u.id = m.created_by").Scan(&result).Error
+	if err != nil {
+		log.Println("unable to get mentorship list", err)
+		return nil, fmt.Errorf("unable to get mentorship list")
+	}
+
+	return result, nil
 }
 
 func (m *mentorshipStorage) GetApprovedMentorships(ctx context.Context) ([]models.Mentorship, error) {

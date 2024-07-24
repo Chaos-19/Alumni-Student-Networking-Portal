@@ -19,8 +19,8 @@ func (m *mentorshipModule) CreateMentorship(ctx context.Context, mp *models.Ment
 	return m.mentorshipModule.CreateMentorship(ctx, mp)
 }
 
-func (m *mentorshipModule) GetMentorships(ctx context.Context) ([]models.Mentorship, error) {
-	return nil, nil
+func (m *mentorshipModule) GetMentorships(ctx context.Context) ([]models.MentorshipList, error) {
+	return m.mentorshipModule.GetMentorships(ctx)
 }
 
 func (m *mentorshipModule) GetMentorship(ctx context.Context, mp *models.Mentorship) error {
