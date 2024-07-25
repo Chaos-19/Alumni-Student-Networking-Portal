@@ -1,4 +1,5 @@
 export interface QuestionPostType {
+    id: string;
     author: Author;
     created_at: string;
     content: string;

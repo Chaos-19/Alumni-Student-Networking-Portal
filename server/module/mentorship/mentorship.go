@@ -5,22 +5,23 @@ import (
 
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/models"
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/module"
+	"github.com/Chaos-19/Alumni-Student-Networking-Portal/storage"
 )
 
 type mentorshipModule struct {
-	mentorshipModule module.Mentorship
+	mentorshipStorage storage.Mentorship
 }
 
-func NewMentorshipModule(m module.Mentorship) module.Mentorship {
-	return &mentorshipModule{mentorshipModule: m}
+func NewMentorshipModule(m storage.Mentorship) module.Mentorship {
+	return &mentorshipModule{mentorshipStorage: m}
 }
 
 func (m *mentorshipModule) CreateMentorship(ctx context.Context, mp *models.Mentorship) error {
-	return m.mentorshipModule.CreateMentorship(ctx, mp)
+	return m.mentorshipStorage.CreateMentorship(ctx, mp)
 }
 
 func (m *mentorshipModule) GetMentorships(ctx context.Context) ([]models.MentorshipList, error) {
-	return m.mentorshipModule.GetMentorships(ctx)
+	return m.mentorshipStorage.GetMentorships(ctx)
 }
 
 func (m *mentorshipModule) GetMentorship(ctx context.Context, mp *models.Mentorship) error {

@@ -21,7 +21,7 @@ type Props = {
       profile: string;
       name: string;
     };
-    id?: number;
+    id: string;
     title: string;
     author?: string;
     description?: string;
@@ -29,9 +29,9 @@ type Props = {
     likes: string;
     comments: string;
     tags: string[];
-    descrion?: string;
   };
 };
+
 
 const DiscussionCard = ({ post }: Props) => {
   return (

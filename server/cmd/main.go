@@ -8,12 +8,15 @@ import (
 	"time"
 
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/module"
+	dm "github.com/Chaos-19/Alumni-Student-Networking-Portal/module/discussion"
 	mm "github.com/Chaos-19/Alumni-Student-Networking-Portal/module/mentorship"
 	um "github.com/Chaos-19/Alumni-Student-Networking-Portal/module/user"
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/storage"
+	ds "github.com/Chaos-19/Alumni-Student-Networking-Portal/storage/discussion"
 	ms "github.com/Chaos-19/Alumni-Student-Networking-Portal/storage/mentorship"
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/storage/user"
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/view"
+	dv "github.com/Chaos-19/Alumni-Student-Networking-Portal/view/discussion"
 	"github.com/Chaos-19/Alumni-Student-Networking-Portal/view/mentorship"
 	uv "github.com/Chaos-19/Alumni-Student-Networking-Portal/view/user"
 	"github.com/gin-contrib/cors"
@@ -71,6 +74,7 @@ func NewStorage(db *gorm.DB) storage.Storage {
 	return storage.Storage{
 		User:       user.NewUserStorage(db),
 		Mentorship: ms.NewMentorshipStorage(db),
+		Discussion: ds.NewDiscussionStorage(db),
 	}
 }
 
@@ -78,13 +82,16 @@ func NewModule(s storage.Storage) module.Module {
 	return module.Module{
 		User:       um.NewUserModule(s.User, ""),
 		Mentorship: mm.NewMentorshipModule(s.Mentorship),
+		Discussion: dm.NewDiscussionModule(s.Discussion),
 	}
 }
 
 func NewView(m module.Module) view.View {
 	return view.View{
 		User:       uv.NewUserView(m.User),
-		Mentorship: mentorship.NewMentorshipViewView(m.Mentorship)}
+		Mentorship: mentorship.NewMentorshipViewView(m.Mentorship),
+		Discussion: dv.NewMentorshipViewView(m.Discussion),
+	}
 }
 
 func main() {
@@ -117,6 +124,9 @@ func main() {
 	v1.POST("/users/login", view.User.Login)
 	v1.POST("/mentorships", view.Mentorship.CreateMentorship)
 	v1.GET("/mentorships", view.Mentorship.GetMentorships)
+	v1.POST("/questions", view.Discussion.CreateQuestion)
+	v1.GET("/questions", view.Discussion.GetQuestions)
+	v1.POST("/questions/:id/answer", view.Discussion.AnswerQuestion)
 
 	err = r.Run(":8081")
 	if err != nil {

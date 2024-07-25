@@ -18,7 +18,15 @@ type Mentorship interface {
 	UpdateMentorship(ctx context.Context, mp *models.Mentorship) error
 }
 
+type Discussion interface {
+	CreateQuestion(ctx context.Context, dp *models.Question) error
+	GetDiscussion(ctx context.Context, dp *models.Discussion) (*models.DiscussionWithReplies, error)
+	GetDiscussions(ctx context.Context) ([]models.DiscussionWithReplies, error)
+	AnswerDiscussion(ctx context.Context, dp *models.DiscussionReply) error
+}
+
 type Module struct {
 	User       User
 	Mentorship Mentorship
+	Discussion Discussion
 }

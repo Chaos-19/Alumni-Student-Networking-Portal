@@ -1,103 +1,99 @@
+"use client";
 
-import { Card } from "@/components/ui/card";
+import React, { useEffect, useState } from "react";
 import Qusetions from "./qusetions";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import Image from "next/image";
 import { Trophy } from "lucide-react";
 import { FaFacebook, FaGithub, FaInstagram } from "react-icons/fa";
+import { Card } from "@/components/ui/card";
 
-type Props = {};
+// Define types for API responses and component props
+type User = {
+  username: string;
+  profile_image_url: string;
+};
 
-const questions = [
-  {
-    author: {
-      username: "Golanginya",
-      profile_image_url: "/Ellipse 5.png",
-    },
-    created_at: "12 November 2020 19:35",
-    content:
-      "Mi magna sed nec nisl mattis. Magna cursus tincidunt rhoncus imperdiet fermentum pretium, pharetra nisl. Euismod.\n\n```showLineNumbers go\npackage mian\nimport 'fmt'\nfunc main() {\n\tfmt.Println('Hello, world!')\n}\n ``` \nPosuere arcu arcu consectetur turpis rhoncus tellus. Massa, consectetur massa sit fames nulla eu vehicula ullamcorper. Ante sit mauris elementum sollicitudin arcu sit suspendisse pretium. Nisl egestas fringilla justo bibendum.",
-    tags: ["java", "javascript", "wtf"],
-    likes: 0,
-    retweets: 0,
-    replies: 0,
-    title: "How to patch KDE on FreeBSD?",
+type CommentReply = {
+  user: string;
+  date: string;
+  text: string;
+  likes: number;
+  replies?: CommentReply[];
+};
 
-    comment: [
-      {
-        user: {
-          username: "@unkind",
-          profile_image_url: "/Ellipse 5.png",
-        },
-        date: "12 November 2020 19:35",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisi nulla placerat dignissim ipsum arcu.\n```\npackage main\n```\n Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
-        code: "package main",
-        likes: 12,
-        dislikes: 3,
-        replies: [
-          {
-            user: "@lazyReplayer",
-            date: "12 November 2020 19:35",
-            text: "@unkind, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
-            likes: 3,
-            replies: [
-              {
-                user: "@unkind",
-                date: "12 November 2020 19:35",
-                text: "@lazyReplayer, Thanks!",
-                likes: 1,
-              },
-            ],
-          },
-        ],
-      },
-      {
-        user: {
-          username: "@morgenshtern",
-          profile_image_url: "/Ellipse 5.png",
-        },
-        date: "12 November 2020 19:35",
-        text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna. Placerat ut adipiscing nulla lectus vulputate massa, scelerisque. Netus nisi nulla placerat dignissim ipsum arcu.",
-        likes: 256,
-        dislikes: 3,
-        replies: [],
-      },
-      {
-        user: {
-          username: "@kizaru",
-          profile_image_url: "/Ellipse 5.png",
-        },
-        date: "12 November 2020 19:35",
-        text: "Mi ac id faucibus laoreet. Nulla quis in interdum imperdiet. Luctus mollis massa netus.",
-        likes: 3,
-        dislikes: 3,
-        replies: [
-          {
-            user: "@lazyReplayer",
-            date: "12 November 2020 19:35",
-            text: "@unkind, Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ornare rutrum amet, a nunc mi lacinia in iaculis. Pharetra ut integer nibh urna.",
-            likes: 3,
-            replies: [
-              {
-                user: "@unkind",
-                date: "12 November 2020 19:35",
-                text: "@lazyReplayer, Thanks!",
-                likes: 1,
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-];
+type Comment = {
+  user: User;
+  date: string;
+  text: string;
+  code?: string;
+  likes: number;
+  dislikes: number;
+  replies: CommentReply[];
+};
 
-export default function page({ }: Props) {
+type Question = {
+  id: string;
+  author: User;
+  created_at: string;
+  content: string;
+  tags: string[];
+  likes: number;
+  retweets: number;
+  replies: number;
+  title: string;
+  comment: Comment[];
+};
+
+// Component to fetch and display a random question
+export default function Page() {
+
+  const [questions, setQuestions] = useState<Question | null>(null);
+
+  useEffect(() => {
+    const fetchQuestions = async () => {
+      try {
+        const response = await fetch("http://localhost:8081/v1/questions");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const result = await response.json();
+        
+        if (result.ok && result.data.length > 0) {
+          const apiData = result.data[0]; // Assuming you want the first item
+          
+          // Map API data to Question type
+          const transformedData: Question = {
+            id: apiData.id,
+            author: {
+              username: apiData.user.first_name, // Adjust as necessary
+              profile_image_url: "/Ellipse 5.png", // Use a default or user-specific image URL
+            },
+            created_at: apiData.created_at,
+            content: apiData.question,
+            tags: [apiData.category], // Adjust if necessary
+            likes: 0, // Placeholder value
+            retweets: 0, // Placeholder value
+            replies: apiData.replies.length,
+            title: apiData.title,
+            comment: [], // Adjust if you have comments
+          };
+
+          setQuestions(transformedData);
+        }
+      } catch (error) {
+        console.error("Fetch error:", error);
+      }
+    };
+
+    fetchQuestions();
+  }, []); // Dependency array
+
   return (
     <div className="overflow-y-hidden">
       <div className="grid grid-cols-[75%_25%] bg-gray-100">
         <ScrollArea className="w-full h-screen pb-20 px-5">
-          <Qusetions questions={questions[0]} />
+          {questions ? <Qusetions questions={questions} /> : <p>Loading...</p>}
         </ScrollArea>
         <div className="w-full pl-2 pr-8 hidden lg:flex pt-8 justify-center items-start">
           <Card>
@@ -109,9 +105,9 @@ export default function page({ }: Props) {
                   <Trophy className="text-yellow-900" /> 125 [8]
                 </div>
                 <div className="flex justify-center items-center gap-2">
-                  {
-                    [<FaGithub />, <FaInstagram />, <FaFacebook />].map((val, index) => (val))
-                  }
+                  {[<FaGithub />, <FaInstagram />, <FaFacebook />].map((icon, index) => (
+                    <span key={index}>{icon}</span>
+                  ))}
                 </div>
               </div>
             </div>
