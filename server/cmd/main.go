@@ -124,10 +124,12 @@ func main() {
 	v1.POST("/users/login", view.User.Login)
 	v1.POST("/mentorships", view.Mentorship.CreateMentorship)
 	v1.GET("/mentorships", view.Mentorship.GetMentorships)
+	v1.GET("/system/mentorships", view.Mentorship.GetMentorshipsForSystem)
 	v1.POST("/questions", view.Discussion.CreateQuestion)
 	v1.GET("/questions", view.Discussion.GetQuestions)
 	v1.POST("/questions/:id/answer", view.Discussion.AnswerQuestion)
 
+	v1.Static("/uploads", "/uploads")
 	err = r.Run(":8081")
 	if err != nil {
 		log.Fatal("error starting the server", err)

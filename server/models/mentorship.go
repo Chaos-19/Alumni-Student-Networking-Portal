@@ -47,3 +47,14 @@ type MentorshipList struct {
 	Skill     string    `gorm:"column:skill" json:"skill"`
 	CreatedAt time.Time `gorm:"column:created_at" json:"created_at"`
 }
+
+type MentorshipSystemList struct {
+	ID          string         `gorm:"type:uuid;primaryKey" json:"id"`
+	Name        string         `gorm:"type:varchar(255);not null" json:"name"`
+	Description string         `gorm:"type:text" json:"description"`
+	Skill       string         `gorm:"type:varchar(255)" json:"skill"`                           // Skill field
+	CreatedAt   time.Time      `gorm:"type:timestamp with time zone;not null" json:"created_at"` // CreatedAt field
+	Uploads     pq.StringArray `gorm:"type:text[]" json:"uploads"`                               // Array of strings for uploads
+	Links       pq.StringArray `gorm:"type:text[]" json:"links"`                                 // Array of strings for links
+	FirstName   string         `json:"first_name"`
+}

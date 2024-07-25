@@ -16,6 +16,7 @@ type Mentorship interface {
 	GetMentorships(ctx context.Context) ([]models.MentorshipList, error)
 	GetMentorship(ctx context.Context, mp *models.Mentorship) error
 	UpdateMentorship(ctx context.Context, mp *models.Mentorship) error
+	GetMentorshipsForSystem(ctx context.Context) ([]models.MentorshipSystemList, error)
 }
 
 type Discussion interface {

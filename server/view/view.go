@@ -19,6 +19,7 @@ type Mentorship interface {
 	CreateMentorship(ctx *gin.Context)
 	ApproveMentorship(ctx *gin.Context)
 	GetMentorships(ctx *gin.Context)
+	GetMentorshipsForSystem(ctx *gin.Context)
 }
 
 type Discussion interface {

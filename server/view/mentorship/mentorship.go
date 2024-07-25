@@ -111,3 +111,13 @@ func (m *mentorshipView) GetMentorships(ctx *gin.Context) {
 
 	ctx.JSON(http.StatusOK, view.SuccessResponse(resp))
 }
+
+func (m *mentorshipView) GetMentorshipsForSystem(ctx *gin.Context) {
+	resp, err := m.mentorshipModule.GetMentorshipsForSystem(ctx)
+	if err != nil {
+		ctx.JSON(http.StatusInternalServerError, view.ErrorResponse("unable to save mentorship meta data"))
+		return
+	}
+
+	ctx.JSON(http.StatusOK, view.SuccessResponse(resp))
+}
